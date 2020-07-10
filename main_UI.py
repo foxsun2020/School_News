@@ -40,7 +40,7 @@ def archive(title, news):
         file.seek(0, 0)
         content = file.read()
         file.seek(0, 0)
-        file.write(news)
+        file.write(news + '\n' + '-'*100 + '\n' +content)
         send_email(news)
     file.close()
 
