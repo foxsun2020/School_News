@@ -76,22 +76,25 @@ def run(i):
         if g is not None:
             print('graduate news:', g)
         if s is None and g is None:
-            print('No update')
+            print('No Update')
         time.sleep(i)
 
 
 if __name__ == '__main__':
     send = False
     update = None
-    need_mail = input('send email?(Y/N)\n')
-    interval = input('interval time (unit:s)\n')
+    need_mail = input('do you send a email?(Y/N)\n')
+    interval = input('every interval time (unit:s)\n')
     if need_mail == 'y' or need_mail == 'Y':
         send = True
-        print('Sender Information(*all mail services are supposed)')
-        _user = input('input your sender email address(eg:xxxxxxxxx@sues.edu.cn)\n')
+        print('Email Information Setting(*all mail services are supposed)')
+        # you can change the following values with '_' to immutable strings
+        # according to your information.
+        _user = input('From>>>(mail address: eg:xxxxxxxxx@sues.edu.cn)\n')
         _password = input('mail password\n')
-        _host = input('input your sender email host(eg:smtphz.qiye.163.com)\n')
-        _email = input('input your recipient email address(eg:xxxxxx@gmail.com)\n')
+        _host = input('email host(SUES school mail STMP: smtphz.qiye.163.com)\n')
+        _email = input('>>>To(mail address: eg:xxxxxx@gmail.com)\n')
+        print('*' * 5, 'from', _user, '>>>', 'to', _email, '*' * 5)
         run(int(interval))
     else:
         run(int(interval))
