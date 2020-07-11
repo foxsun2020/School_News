@@ -28,7 +28,8 @@ def ge_spider():
         link = urljoin(url, s_link)
         date = item.find('span', class_="news_meta").text
         news = title + '\n' + link + '\n' + date
-        archive(title, news)
+        ge_news = archive(title, news)
+        return ge_news
 
 
 def school_spider():
@@ -44,7 +45,8 @@ def school_spider():
         link = urljoin(url, item['href'])
         date = item.find('span', class_='column-news-date news-date-hide').text
         news = title + '\n' + link + '\n' + date
-        archive(title, news)
+        school_news = archive(title, news)
+        return school_news
 
 
 def archive(title, news):
@@ -55,26 +57,34 @@ def archive(title, news):
         file.seek(0, 0)
         content = file.read()
         file.seek(0, 0)
-        file.write(news + '\n' + '-'*100 + '\n' + content)
+        file.write(news + '\n' + '-' * 100 + '\n' + content)
         if send:
             send_email(_user, _password, _host, _email, news)
         return title
     file.close()
 
 
-def run():
+def run(i):
     counter = 0
     while True:
         counter += 1
         print('NO.' + str(counter) + '-' * 3 + time.strftime("%m/%d/%Y %H:%M"))
-        print(school_spider())
-        print(ge_spider())
-        time.sleep(60)
+        s = school_spider()
+        g = ge_spider()
+        if s is not None:
+            print('school news:', s)
+        if g is not None:
+            print('graduate news:', g)
+        if s is None and g is None:
+            print('No update')
+        time.sleep(i)
 
 
 if __name__ == '__main__':
     send = False
+    update = None
     need_mail = input('send email?(Y/N)\n')
+    interval = input('interval time (unit:s)\n')
     if need_mail == 'y' or need_mail == 'Y':
         send = True
         print('Sender Information(*all mail services are supposed)')
@@ -82,6 +92,6 @@ if __name__ == '__main__':
         _password = input('mail password\n')
         _host = input('input your sender email host(eg:smtphz.qiye.163.com)\n')
         _email = input('input your recipient email address(eg:xxxxxx@gmail.com)\n')
-        run()
+        run(int(interval))
     else:
-        run()
+        run(int(interval))
