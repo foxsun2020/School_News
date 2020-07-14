@@ -32,18 +32,25 @@ def ge_spider():  # graduate school news
 
 
 def fashion_spider():
-    url = 'https://cfd.sues.edu.cn/11394/list.htm'
+    url = 'https://cfd.sues.edu.cn/'
     ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' \
          '(KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36 Edg/83.0.478.58'
     response = get(url, headers={'User-Agent': ua})
     data = response.content.decode('utf-8')
     soup = BeautifulSoup(data, 'html.parser')
-    s = soup.findAll('td', align='left')
+    s = soup.findAll(name='td', attrs={'align': 'left', 'width': None})
+    d = soup.findAll(name='td', attrs={'align': 'left', 'width': "30px"})
+    date_list = []
+    date_counter = 0
+    for item in d:
+        date_list.append(item.text)
     for item in s:
-        title = '★' + item.find('a', href=compile(r'(\w)'))['title'] + '★'
+        title = '★' + item.find(name='a', href=compile(r'(\w)'))['title'] + '★'
         s_link = item.find('a', href=compile(r'(\w)'))['href']
         link = urljoin(url, s_link)
-        news = title + '\n' + link
+        date = date_list[date_counter]
+        date_counter += 0
+        news = title + '\n' + link + '\n' + date
         archive(title, news)
 
 
@@ -84,14 +91,16 @@ def archive(title, news):
         file.seek(0, 0)
         file.write(news + '\n' + '-' * 100 + '\n' + content)
         if send:  # send mail every 10 updates
-            global mail_counter
             file2 = open(r'send_news.txt', 'r+', encoding='utf-8')
             file2.seek(0, 0)
             content = file2.read()
             file2.seek(0, 0)
-            file2.write(news + '\n\n' + '-' * 100 + '\n\n' + content)
-            mail_counter += 1
-            if mail_counter == 10:
+            file2.write(news + '\n' + '-' * 100 + '\n' + content)
+            file2.seek(0, 0)
+            mail_counter = -1
+            for mail_counter, line in enumerate(file2):
+                mail_counter += 1
+            if mail_counter == 40:  # send every 40 lines
                 file2.seek(0, 0)
                 send_news = file2.read()
                 send_email(_user, _password, _host, _email, send_news)
@@ -126,7 +135,6 @@ if __name__ == '__main__':
     need_mail = input('do you need email notice every 10 updates?(Y/N)\n')
     interval = input('every interval time (unit:s)\n')
     if need_mail == 'y' or need_mail == 'Y':
-        mail_counter = 0
         send = True
         print('Email Information Setting')
         # you can change the following values with '_' to immutable strings
