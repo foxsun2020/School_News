@@ -47,4 +47,4 @@ python 3
 
 窗体界面如下：
 
-!['ui'](img/ui.png)
+!['ui'](img/ui_demo.png)
