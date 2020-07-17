@@ -15,20 +15,23 @@ def send_email(_user, _password, _host, _email, _contents):
 
 
 def ge_spider():  # graduate school news
-    url = 'https://ge.sues.edu.cn/19716/list.htm'
+    url1 = 'https://ge.sues.edu.cn/19716/list.htm'  # postgraduate school
+    url2 = 'https://lib.sues.edu.cn/'  # library
     ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' \
          '(KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36 Edg/83.0.478.58'
-    response = get(url, headers={'User-Agent': ua})
-    data = response.content.decode('utf-8')
-    soup = BeautifulSoup(data, 'html.parser')
-    s = soup.findAll('li', class_=compile(r"news n(\d) clearfix"))
-    for item in s:
-        title = '★' + item.find('a', href=compile(r'(\w)'))['title'] + '★'
-        s_link = item.find('a', href=compile(r'(\w)'))['href']
-        link = urljoin(url, s_link)
-        date = item.find('span', class_="news_meta").text
-        news = title + '\n' + link + '\n' + date
-        archive(title, news)
+    for i in range(1, 3):
+        url = eval('url%s' % i)
+        response = get(url, headers={'User-Agent': ua})
+        data = response.content.decode('utf-8')
+        soup = BeautifulSoup(data, 'html.parser')
+        s = soup.findAll('li', class_=compile(r"news n(.*)"))
+        for item in s:
+            title = '★' + item.find('a', href=compile(r'(\w)'))['title'] + '★'
+            s_link = item.find('a', href=compile(r'(\w)'))['href']
+            link = urljoin(url, s_link)
+            date = item.find('span', class_="news_meta").text
+            news = title + '\n' + link + '\n' + date
+            archive(title, news)
 
 
 def fashion_spider():
