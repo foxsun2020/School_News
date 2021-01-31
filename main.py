@@ -93,13 +93,13 @@ def archive(title, news):
         file.seek(0, 0)
         content = file.read()
         file.seek(0, 0)
-        file.write(news + '\n' + '-' * 100 + '\n' + content)
+        file.write(news + '\n' + '-' * 80 + '\n' + content)
         
         file2 = open(r'send_news.txt', 'r+', encoding='utf-8')
         file2.seek(0, 0)
         content = file2.read()
         file2.seek(0, 0)
-        file2.write(news + '\n' + '-' * 100 + '\n' + content)
+        file2.write(news + '\n' + '-' * 80 + '\n' + content)
         file2.seek(0, 0)
         mail_counter = -1
         for mail_counter, line in enumerate(file2):
