@@ -93,23 +93,24 @@ def archive(title, news):
         content = file.read()
         file.seek(0, 0)
         file.write(news + '\n' + '-' * 100 + '\n' + content)
-        if true:  # send mail every 10 updates
-            file2 = open(r'send_news.txt', 'r+', encoding='utf-8')
+        
+        file2 = open(r'send_news.txt', 'r+', encoding='utf-8')
+        file2.seek(0, 0)
+        content = file2.read()
+        file2.seek(0, 0)
+        file2.write(news + '\n' + '-' * 100 + '\n' + content)
+        file2.seek(0, 0)
+        mail_counter = -1
+        for mail_counter, line in enumerate(file2):
+            mail_counter += 1
+        if mail_counter == 40:  # send every 40 lines
             file2.seek(0, 0)
-            content = file2.read()
+            send_news = file2.read()
+            send_email(_user, _password, _host, _email, send_news)
             file2.seek(0, 0)
-            file2.write(news + '\n' + '-' * 100 + '\n' + content)
-            file2.seek(0, 0)
-            mail_counter = -1
-            for mail_counter, line in enumerate(file2):
-                mail_counter += 1
-            if mail_counter == 40:  # send every 40 lines
-                file2.seek(0, 0)
-                send_news = file2.read()
-                send_email(_user, _password, _host, _email, send_news)
-                file2.seek(0, 0)
-                file2.truncate()
-            file2.close()
+            file2.truncate()
+        file2.close()
+            
         print(title)
     file.close()
 
