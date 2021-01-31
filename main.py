@@ -2,6 +2,7 @@ from requests import get
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 import time
+import sys
 import yagmail
 from re import compile
 
@@ -135,6 +136,6 @@ if __name__ == '__main__':
     _user = 'suesedu@aliyun.com'
     _password = 'sues2020'
     _host = 'smtp.aliyun.com'
-    _email = 'm090120303@sues.edu.cn'
+    _email = sys.argv[1]
     print('*' * 5, 'from', _user, '>>>', 'to', _email, '*' * 5)
     run()
