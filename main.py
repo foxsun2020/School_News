@@ -115,7 +115,7 @@ def archive(title, news):
 
 
 def run():
-    print('NO.' + str(counter) + '-' * 3 + time.strftime("%m/%d/%Y %H:%M"))
+    print('-' * 3 + time.strftime("%m/%d/%Y %H:%M"))
     f = open(r'News_Archive.txt', 'r', encoding='utf-8')
     old = f.readline()
     f.close()
