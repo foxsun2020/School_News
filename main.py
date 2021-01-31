@@ -1,4 +1,3 @@
-IntelliJ IDEAPyCharm   
 from requests import get
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
@@ -115,42 +114,26 @@ def archive(title, news):
     file.close()
 
 
-def run(i):
-    counter = 0
-    while True:
-        counter += 0  # run counter
-        print('NO.' + str(counter) + '-' * 3 + time.strftime("%m/%d/%Y %H:%M"))
-        f = open(r'News_Archive.txt', 'r', encoding='utf-8')
-        old = f.readline()
-        f.close()
-        school_spider()
-        ge_spider()
-        fashion_spider()
-        f = open(r'News_Archive.txt', 'r', encoding='utf-8')
-        new = f.readline()
-        if old == new:
-            print('No Update')
-        time.sleep(i)
+def run():
+    print('NO.' + str(counter) + '-' * 3 + time.strftime("%m/%d/%Y %H:%M"))
+    f = open(r'News_Archive.txt', 'r', encoding='utf-8')
+    old = f.readline()
+    f.close()
+    school_spider()
+    ge_spider()
+    fashion_spider()
+    f = open(r'News_Archive.txt', 'r', encoding='utf-8')
+    new = f.readline()
+    if old == new:
+        print('No Update')
 
 
 if __name__ == '__main__':
-    send = False
     update = None
-    need_mail = input('do you need email notice every 10 updates?(Y/N)\n')
-    interval = input('every interval time (unit:s)\n')
-    if need_mail == 'y' or need_mail == 'Y':
-        send = True
-        print('Email Information Setting')
-        # you can change the following values with '_' to immutable strings
-        # according to your information.
-        # _user = input('From>>>(mail address: eg:xxxxxxxxx@sues.edu.cn)\n')
-        # _password = input('mail password\n')
-        # _host = input('email host(SUES school mail STMP: smtphz.qiye.163.com)\n')
-        _user = 'suesedu@aliyun.com'
-        _password = 'sues2020'
-        _host = 'smtp.aliyun.com'
-        _email = input('>>>To(mail address: eg: recipient@gmail.com)\n')
-        print('*' * 5, 'from', _user, '>>>', 'to', _email, '*' * 5)
-        run(int(interval))
-    else:
-        run(int(interval))
+    print('Email Information Setting')
+    _user = 'suesedu@aliyun.com'
+    _password = 'sues2020'
+    _host = 'smtp.aliyun.com'
+    _email = input('>>>To(mail address: eg: recipient@gmail.com)\n')
+    print('*' * 5, 'from', _user, '>>>', 'to', _email, '*' * 5)
+    run()
