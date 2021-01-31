@@ -134,6 +134,6 @@ if __name__ == '__main__':
     _user = 'suesedu@aliyun.com'
     _password = 'sues2020'
     _host = 'smtp.aliyun.com'
-    _email = input('>>>To(mail address: eg: recipient@gmail.com)\n')
+    _email = 'm090120303@sues.edu.cn'
     print('*' * 5, 'from', _user, '>>>', 'to', _email, '*' * 5)
     run()
