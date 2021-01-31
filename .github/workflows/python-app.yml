@@ -28,4 +28,4 @@ jobs:
         pip install yagmail
     - name: Run
       run: |
-        python main.py
+        python main.py ${{ secrets.MAIL }}
